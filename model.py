@@ -15,18 +15,18 @@ class TranslationModel:
 
         self.tokenizer = MT5Tokenizer.from_pretrained(model_repo)
 
-        if torch.cuda.is_available():
-            self.device = torch.device('cuda')
-        else:
-            self.device = torch.device('cpu')
+        # if torch.cuda.is_available():
+        #     self.device = torch.device('cuda')
+        # else:
+        #     self.device = torch.device('cpu')
 
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_repo, config={'max_new_tokens': 256}).to(self.device)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_repo, config={'max_new_tokens': 256}).cuda()
 
         special_tokens_dict = {'additional_special_tokens': list(self.LANG_TOKEN_MAPPING.values())}
         self.tokenizer.add_special_tokens(special_tokens_dict)
         self.model.resize_token_embeddings(len(self.tokenizer))
 
-        self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+        self.model.load_state_dict(torch.load(model_path)).cuda()
 
     def encode_input_str(self, text, target_lang, seq_len):
         target_lang_token = self.LANG_TOKEN_MAPPING[target_lang]
@@ -47,7 +47,7 @@ class TranslationModel:
             target_lang=output_language,
             seq_len=256,
         )
-        input_ids = input_ids.unsqueeze(0).to(self.device)
+        input_ids = input_ids.unsqueeze(0).cuda()
         num_tokens = (input_ids != 0).sum().item()
 
         if num_tokens <= 32:

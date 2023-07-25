@@ -59,7 +59,7 @@ class TranslationModel:
         else:
             output_max_length = 256
 
-        output_tokens = self. model.generate(input_ids, num_beams=10, length_penalty=0.6, max_length=output_max_length)
+        output_tokens = self. model.generate(input_ids, num_beams=10, length_penalty=0.2, max_length=output_max_length)
 
         predicted_translation = self.tokenizer.decode(output_tokens[0], skip_special_tokens=True)
 

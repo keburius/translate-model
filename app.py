@@ -3,8 +3,19 @@ from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from model import TranslationModel
+from fastapi.middleware.cors import CORSMiddleware  # New import
 
 app = FastAPI()
+
+# CORS middleware setup
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 templates = Jinja2Templates(directory="templates")
 
 # Initialize the TranslationModel class and keep it in memory.

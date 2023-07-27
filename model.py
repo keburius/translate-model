@@ -42,7 +42,7 @@ class TranslationModel:
         return input_ids[0]
 
     def translate_text(self, input_text, output_language):
-        input_ids = self.encode_input_str
+        input_ids = self.encode_input_str(
             text=input_text,
             target_lang=output_language,
             seq_len=256,

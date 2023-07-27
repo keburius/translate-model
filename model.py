@@ -49,7 +49,7 @@ class TranslationModel:
         )
         input_ids = input_ids.unsqueeze(0).to(self.device)
 
-        output_tokens = self.model.generate(input_ids, num_beams=10,
+        output_tokens = self.model.generate(input_ids, num_beams=1,
                                             early_stopping=True, max_length=256)
 
         predicted_translation = self.tokenizer.decode(output_tokens[0], skip_special_tokens=True)

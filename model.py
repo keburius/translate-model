@@ -6,7 +6,7 @@ from transformers import AutoModelForSeq2SeqLM, MT5Tokenizer
 
 
 class TranslationModel:
-    def __init__(self, model_repo='google/mt5-base', model_path='/home/ubuntu/model/v3-ss-tr'):
+    def __init__(self, model_repo='google/mt5-base', model_path='/Users/keburius/Desktop/NLP/Models/v3-ss-tr'):
         self.LANG_TOKEN_MAPPING = {
             'DescriptionEn': '<en>',
             'DescriptionGe': '<ka>',
@@ -42,14 +42,14 @@ class TranslationModel:
         return input_ids[0]
 
     def translate_text(self, input_text, output_language):
-        input_ids = self.encode_input_str(
+        input_ids = self.encode_input_str
             text=input_text,
             target_lang=output_language,
             seq_len=256,
         )
         input_ids = input_ids.unsqueeze(0).to(self.device)
 
-        output_tokens = self.model.generate(input_ids, num_beams=1,
+        output_tokens = self.model.generate(input_ids, num_beams=2,
                                             early_stopping=True, max_length=256)
 
         predicted_translation = self.tokenizer.decode(output_tokens[0], skip_special_tokens=True)

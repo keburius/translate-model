@@ -39,6 +39,6 @@ async def home(request: TranslateType):
 
     if input_text and output_language:
         predicted_translation = translation_model.translate_text(input_text, output_language)
-        return {'translation': predicted_translation}
+        return {'translation': predicted_translation, 'confidence': 1}
 
     return {'error': 'Invalid request or missing data'}
